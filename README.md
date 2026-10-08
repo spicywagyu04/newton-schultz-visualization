@@ -1,5 +1,7 @@
 # Newton–Schulz singular value explorer
 
+**Live website:** https://spicywagyu04.github.io/newton-schultz-visualization/
+
 Open `index.html` in any modern browser. No installation, build, or internet connection is needed.
 
 For a local server, run `python3 -m http.server 8000 --bind 127.0.0.1` in this folder, then open http://127.0.0.1:8000.
