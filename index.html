@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore how Newton–Schulz iterations reshape singular values. Adjust the iteration count and polynomial coefficients in an interactive chart.">
+  <meta name="theme-color" content="#f5f7fb">
+  <title>Newton–Schulz · Singular value explorer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%232d57e8'/%3E%3Cpath d='M8 30C12 30 14 10 21 11S28 25 33 16' fill='none' stroke='white' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <script src="math.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="workspace">
+    <header class="page-header">
+      <div class="eyebrow"><span class="brand-mark" aria-hidden="true">N<span>↗</span></span> SINGULAR VALUE EXPLORER</div>
+      <div class="title-row"><h1>Newton–Schulz<span class="title-period">.</span></h1><span class="method-tag" id="method-tag">MUON DEFAULTS</span></div>
+      <p class="intro">Watch a polynomial reshape the spectrum, one iteration at a time.</p>
+    </header>
+
+    <section class="explorer" aria-label="Interactive singular value chart">
+      <div class="chart-heading">
+        <div><h2>From starting value to updated value</h2><p>Normalized input · logarithmic horizontal scale</p></div>
+        <div class="chart-legend">
+          <span><i class="swatch swatch-active"></i><span id="curve-name">Muon quintic</span></span>
+          <label class="comparison-label"><input id="comparison" type="checkbox" checked><i class="swatch swatch-reference"></i> Classical cubic</label>
+        </div>
+      </div>
+      <div class="chart-shell" id="chart-shell">
+        <svg id="chart" role="img" aria-labelledby="chart-title chart-desc">
+          <title id="chart-title">Singular values after Newton–Schulz iterations</title>
+          <desc id="chart-desc">The horizontal axis shows starting singular values from 0.001 to 1 on a logarithmic scale. The vertical axis shows their magnitudes after the chosen number of iterations.</desc>
+        </svg>
+        <div id="chart-tooltip" class="chart-tooltip" role="tooltip" hidden></div>
+      </div>
+      <div class="chart-caption"><span><i class="target-swatch"></i> Ideal magnitude = 1</span><span>Hover or touch the curve to inspect</span></div>
+      <p class="plot-notice" id="plot-notice" role="status" hidden></p>
+
+      <div class="iteration-panel">
+        <div class="iteration-heading">
+          <label for="iterations"><span class="control-kicker">ITERATIONS</span><span class="iteration-value"><output id="iteration-output" for="iterations">5</output><span id="iteration-total"> / 5</span></span></label>
+          <label class="max-field" for="max-iterations"><span>Maximum iterations</span><input id="max-iterations" type="number" inputmode="numeric" min="1" max="100" step="1" value="5" aria-describedby="max-error"></label>
+        </div>
+        <input id="iterations" class="iteration-slider" type="range" min="0" max="5" step="1" value="5" aria-label="Number of Newton–Schulz iterations">
+        <div class="slider-labels" aria-hidden="true"><span>0 · Original values</span><span id="slider-max-label">5 iterations</span></div>
+        <p id="max-error" class="field-error" role="status" hidden>Choose a whole number from 1 to 100.</p>
+      </div>
+    </section>
+
+    <section class="polynomial-panel" aria-labelledby="polynomial-heading">
+      <div class="polynomial-heading"><div><span class="control-kicker">THE UPDATE RULE</span><h2 id="polynomial-heading">Make the polynomial your own.</h2></div><button id="reset-coefficients" class="reset-button" type="button">Reset coefficients</button></div>
+      <div class="coefficient-grid">
+        <div class="equation" aria-label="Polynomial a x plus b x cubed plus c x to the fifth"><span class="equation-function">p(x)</span><span class="equation-equals">=</span><span>a<span class="variable">x</span></span><span class="equation-plus">+</span><span>b<span class="variable">x</span><sup>3</sup></span><span class="equation-plus">+</span><span>c<span class="variable">x</span><sup>5</sup></span></div>
+        <label class="coefficient" for="coefficient-a"><span><strong>a</strong><span>Linear</span></span><input id="coefficient-a" type="number" step="any" value="3.4445" inputmode="decimal" aria-describedby="coefficient-error"></label>
+        <label class="coefficient" for="coefficient-b"><span><strong>b</strong><span>Cubic</span></span><input id="coefficient-b" type="number" step="any" value="-4.7750" inputmode="decimal" aria-describedby="coefficient-error"></label>
+        <label class="coefficient" for="coefficient-c"><span><strong>c</strong><span>Quintic</span></span><input id="coefficient-c" type="number" step="any" value="2.0315" inputmode="decimal" aria-describedby="coefficient-error"></label>
+      </div>
+      <p id="coefficient-error" class="field-error" role="status" hidden>Enter a finite number for each coefficient. The chart keeps the last valid values while you edit.</p>
+      <div class="polynomial-footnote"><span id="coefficient-note">Muon's coefficients raise small singular values quickly, allowing overshoot around 1.</span><span class="recurrence">σ<sub>k+1</sub> = |p(σ<sub>k</sub>)|</span></div>
+    </section>
+    <footer><span>A closer look at matrix orthogonalization.</span><a href="https://kellerjordan.github.io/posts/muon/" target="_blank" rel="noopener noreferrer">About the Muon method</a></footer>
+  </main>
+</body>
+</html>
